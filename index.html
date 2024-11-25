@@ -3,28 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Website</title>
+    <title>Content Moderation Rules</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        #adminSection {
+            display: none;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            margin: 1rem;
+        }
+        #rulesContainer {
+            padding: 1rem;
+        }
+        h3 {
+            margin-bottom: 0.5rem;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .category {
+            cursor: pointer;
+            margin-top: 1rem;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .rulesList {
+            display: none;
+            padding-left: 20px;
+        }
+        .ruleItem {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to my Random Website!</h1>
-    <p>Click the button below to send data to a Google Sheet:</p>
-    <button onclick="sendDataToGoogleSheet()">Send Data</button>
+    <header>
+        <h1>Content Moderation Rules</h1>
+        <button onclick="toggleMode()">Toggle Admin/User Mode</button>
+    </header>
+
+    <!-- Admin Section -->
+    <section id="adminSection">
+        <h2>Admin Section</h2>
+        <label for="category">Category:</label>
+        <input type="text" id="category" placeholder="Enter Category">
+        <br>
+        <label for="rule">Rule:</label>
+        <textarea id="rule" rows="6" placeholder="Enter Rule"></textarea>
+        <br>
+        <button onclick="saveRule()">Save Rule</button>
+    </section>
+
+    <!-- User Section -->
+    <section id="rulesContainer">
+        <h2>Rules</h2>
+        <!-- Categories will appear dynamically here -->
+    </section>
 
     <script>
-        function sendDataToGoogleSheet() {
-            const data = { name: "John Doe", email: "john.doe@example.com" };
+        // Store and manage rules in localStorage
+        let rulesData = JSON.parse(localStorage.getItem("rules")) || [];
 
-            fetch('https://script.google.com/macros/s/AKfycbz3dz9smTzdw_lJGC3xVntprHeedBTbeEdVkxZZSwTO/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(data => alert('Data sent successfully!'))
-            .catch((error) => alert('Error sending data: ' + error));
+        // Save a new rule
+        function saveRule() {
+            const category = document.getElementById("category").value;
+            const rule = document.getElementById("rule").value;
+
+            if (!category || !rule) {
+                alert("Please fill in both fields!");
+                return;
+            }
+
+            // Add rule with category
+            rulesData.push({ category, rule });
+            localStorage.setItem("rules", JSON.stringify(rulesData));
+
+            document.getElementById("category").value = "";
+            document.getElementById("rule").value = "";
+
+            displayRules(); // Refresh the user section
+            alert("Rule added successfully!");
         }
+
+        // Display rules dynamically, grouped by category
+        function displayRules() {
+            const rulesContainer = document.getElementById("rulesContainer");
+            rulesContainer.innerHTML = "<h2>Rules</h2>"; // Reset the container
+
+            const categories = {};
+
+            // Group rules by category
+            rulesData.forEach(({ category, rule }) => {
+                if (!categories[category]) {
+                    categories[category] = [];
+                }
+                categories[category].push(rule);
+            });
+
+            // Display each category
+            for (const category in categories) {
+                let categorySection = document.createElement("div");
+                categorySection.classList.add("category");
+                categorySection.textContent = category;
+                categorySection.onclick = () => toggleCategory(category);
+                
+                let rulesList = document.createElement("div");
+                rulesList.classList.add("rulesList");
+                
+                categories[category].forEach(rule => {
+                    let ruleItem = document.createElement("div");
+                    ruleItem.classList.add("ruleItem");
+                    ruleItem.innerHTML = rule.replace(/\n/g, "<br>"); // Preserve line breaks
+                    rulesList.appendChild(ruleItem);
+                });
+
+                categorySection.appendChild(rulesList);
+                rulesContainer.appendChild(categorySection);
+            }
+        }
+
+        // Toggle category visibility
+        function toggleCategory(category) {
+            const categorySection = event.target;
+            const rulesList = categorySection.querySelector(".rulesList");
+            rulesList.style.display = rulesList.style.display === "none" ? "block" : "none";
+        }
+
+        // Toggle between Admin and User Modes
+        function toggleMode() {
+            const adminSection = document.getElementById("adminSection");
+            adminSection.style.display = adminSection.style.display === "none" ? "block" : "none";
+        }
+
+        // Initial display of rules
+        displayRules();
     </script>
 </body>
 </html>
