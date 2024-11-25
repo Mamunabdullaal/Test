@@ -88,25 +88,28 @@
         <!-- Categories will appear dynamically here -->
     </section>
 
-    <script>
-        // Store and manage rules in localStorage
-        let rulesData = JSON.parse(localStorage.getItem("rules")) || [];
+    <script type="module">
+        // Import the functions you need from Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-        // Password for Admin Access
-        const ADMIN_PASSWORD = "admin123";  // Set your admin password here
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbzr_GQZz3-kVLbesVsPc5wMCdk_KK9sA",
+            authDomain: "test-66e14.firebaseapp.com",
+            databaseURL: "https://test-66e14-default-rtdb.firebaseio.com",
+            projectId: "test-66e14",
+            storageBucket: "test-66e14.appspot.com",
+            messagingSenderId: "128644762606",
+            appId: "1:128644762606:web:af140b3c36ebeee87c9cff",
+            measurementId: "G-6315QQSPB1"
+        };
 
-        // Function to prompt for password before showing admin section
-        function promptAdminPassword() {
-            const password = prompt("Enter admin password:");
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-            if (password === ADMIN_PASSWORD) {
-                document.getElementById("adminSection").style.display = "block";
-            } else {
-                alert("Incorrect password.");
-            }
-        }
-
-        // Save a new rule
+        // Save a new rule to Firebase Realtime Database
         function saveRule() {
             const category = document.getElementById("category").value;
             const rule = document.getElementById("rule").value;
@@ -116,52 +119,68 @@
                 return;
             }
 
-            // Add rule with category
-            rulesData.push({ category, rule });
-            localStorage.setItem("rules", JSON.stringify(rulesData));
+            const ruleData = {
+                category: category,
+                rule: rule
+            };
+
+            // Push the new rule to the Realtime Database under "rules"
+            const newRuleRef = ref(database, 'rules/' + Date.now()); // Use timestamp as unique ID
+            set(newRuleRef, ruleData);
 
             document.getElementById("category").value = "";
             document.getElementById("rule").value = "";
 
-            displayRules(); // Refresh the user section
             alert("Rule added successfully!");
+            displayRules();  // Refresh the user section
         }
 
-        // Display rules dynamically, grouped by category
+        // Display rules dynamically from Firebase
         function displayRules() {
             const rulesContainer = document.getElementById("rulesContainer");
             rulesContainer.innerHTML = "<h2>Rules</h2>"; // Reset the container
 
-            const categories = {};
+            const rulesRef = ref(database, 'rules');
+            get(rulesRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const rulesData = snapshot.val();
+                    const categories = {};
 
-            // Group rules by category
-            rulesData.forEach(({ category, rule }) => {
-                if (!categories[category]) {
-                    categories[category] = [];
+                    // Group rules by category
+                    for (const ruleId in rulesData) {
+                        const rule = rulesData[ruleId];
+                        if (!categories[rule.category]) {
+                            categories[rule.category] = [];
+                        }
+                        categories[rule.category].push(rule.rule);
+                    }
+
+                    // Display each category and its rules
+                    for (const category in categories) {
+                        let categorySection = document.createElement("div");
+                        categorySection.classList.add("category");
+                        categorySection.textContent = category;
+                        categorySection.onclick = () => toggleCategory(category);
+                        
+                        let rulesList = document.createElement("div");
+                        rulesList.classList.add("rulesList");
+                        
+                        categories[category].forEach(rule => {
+                            let ruleItem = document.createElement("div");
+                            ruleItem.classList.add("ruleItem");
+                            ruleItem.innerHTML = rule.replace(/\n/g, "<br>"); // Preserve line breaks
+                            rulesList.appendChild(ruleItem);
+                        });
+
+                        categorySection.appendChild(rulesList);
+                        rulesContainer.appendChild(categorySection);
+                    }
+                } else {
+                    rulesContainer.innerHTML = "No rules available.";
                 }
-                categories[category].push(rule);
+            }).catch((error) => {
+                alert("Error fetching data: " + error);
             });
-
-            // Display each category
-            for (const category in categories) {
-                let categorySection = document.createElement("div");
-                categorySection.classList.add("category");
-                categorySection.textContent = category;
-                categorySection.onclick = () => toggleCategory(category);
-                
-                let rulesList = document.createElement("div");
-                rulesList.classList.add("rulesList");
-                
-                categories[category].forEach(rule => {
-                    let ruleItem = document.createElement("div");
-                    ruleItem.classList.add("ruleItem");
-                    ruleItem.innerHTML = rule.replace(/\n/g, "<br>"); // Preserve line breaks
-                    rulesList.appendChild(ruleItem);
-                });
-
-                categorySection.appendChild(rulesList);
-                rulesContainer.appendChild(categorySection);
-            }
         }
 
         // Toggle category visibility
@@ -174,11 +193,7 @@
         // Toggle between Admin and User Modes
         function toggleMode() {
             const adminSection = document.getElementById("adminSection");
-            if (adminSection.style.display === "none") {
-                promptAdminPassword();  // Prompt for password if admin mode is not visible
-            } else {
-                adminSection.style.display = "none";  // Hide admin section if it's already visible
-            }
+            adminSection.style.display = adminSection.style.display === "none" ? "block" : "none";
         }
 
         // Initial display of rules
