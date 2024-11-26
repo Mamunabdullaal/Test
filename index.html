@@ -7,119 +7,94 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
         .container {
-            width: 80%;
+            max-width: 1200px;
             margin: 20px auto;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            border-radius: 8px;
+            background-color: #fff;
         }
         h1 {
             text-align: center;
             color: #333;
         }
-        .category-button {
+        .category {
+            margin: 10px 0;
+        }
+        .category-header {
             background-color: #4CAF50;
             color: white;
             padding: 10px;
-            margin: 5px 0;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
+            font-size: 18px;
+            border: none;
             width: 100%;
             text-align: left;
         }
-        .category-button:hover {
-            background-color: #45a049;
-        }
         .category-content {
             display: none;
-            margin-top: 10px;
-            padding-left: 20px;
-        }
-        .rule-item {
-            margin: 5px 0;
             padding: 10px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            background-color: #f4f4f4;
         }
-        .rule-item pre {
-            background-color: #e0e0e0;
-            padding: 10px;
-            border-radius: 5px;
+        .category-content p {
+            margin: 10px 0;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Content Moderation Rules</h1>
-        <button class="category-button" onclick="toggleCategory('basic-rules')">Basic Rules</button>
-        <div id="basic-rules" class="category-content">
-            <!-- Categories will be dynamically loaded here -->
-        </div>
-    </div>
 
-    <script>
-        // Fetching JSON data from the provided URL
-        const jsonUrl = "https://raw.githubusercontent.com/Mamunabdullaal/Json/refs/heads/main/rules.json";
+<div class="container">
+    <h1>Content Moderation Rules</h1>
+    <div id="categories"></div>
+</div>
 
-        // Function to fetch data and display the categories dynamically
-        fetch(jsonUrl)
-            .then(response => response.json())
-            .then(data => {
-                displayCategories(data);
-            })
-            .catch(error => {
-                console.error("Error fetching JSON data:", error);
-                alert("Failed to load rules.");
-            });
+<script>
+    // Fetch the JSON from the provided URL
+    fetch('https://raw.githubusercontent.com/Mamunabdullaal/Json/refs/heads/main/rules.json')
+        .then(response => response.json())
+        .then(data => {
+            const categoriesContainer = document.getElementById('categories');
 
-        // Function to toggle category visibility
-        function toggleCategory(categoryId) {
-            const categoryContent = document.getElementById(categoryId);
-            categoryContent.style.display = categoryContent.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Function to display categories and rules
-        function displayCategories(data) {
-            const basicRulesContainer = document.getElementById("basic-rules");
-
-            // Loop through each category in Basic Rules
             data.BasicRules.forEach(category => {
-                // Create a button for the category
-                const categoryButton = document.createElement('button');
-                categoryButton.classList.add('category-button');
-                categoryButton.textContent = category.category;
-                categoryButton.onclick = function () {
-                    toggleCategory(category.category.replace(/\s+/g, '-').toLowerCase());
-                };
-                
-                // Append the category button to the container
-                basicRulesContainer.appendChild(categoryButton);
+                // Create category div
+                const categoryDiv = document.createElement('div');
+                categoryDiv.classList.add('category');
 
-                // Create a div to hold the rules for the category
+                // Create category header (for toggling)
+                const categoryHeader = document.createElement('button');
+                categoryHeader.classList.add('category-header');
+                categoryHeader.textContent = category.category;
+
+                // Create content div for this category
                 const categoryContent = document.createElement('div');
-                categoryContent.id = category.category.replace(/\s+/g, '-').toLowerCase();
                 categoryContent.classList.add('category-content');
                 
-                // Loop through the rules of each category and add them to the content
+                // Add the rules to this category
                 category.rules.forEach(rule => {
-                    const ruleItem = document.createElement('div');
-                    ruleItem.classList.add('rule-item');
-                    ruleItem.innerHTML = `<pre>${rule}</pre>`;
-                    categoryContent.appendChild(ruleItem);
+                    const rulePara = document.createElement('p');
+                    rulePara.innerHTML = rule.replace(/\n/g, '<br>'); // Replace newlines with <br>
+                    categoryContent.appendChild(rulePara);
                 });
 
-                // Append the category content (rules) to the container
-                basicRulesContainer.appendChild(categoryContent);
+                // Toggle content visibility on header click
+                categoryHeader.addEventListener('click', () => {
+                    categoryContent.style.display = categoryContent.style.display === 'block' ? 'none' : 'block';
+                });
+
+                // Append header and content to category div
+                categoryDiv.appendChild(categoryHeader);
+                categoryDiv.appendChild(categoryContent);
+
+                // Append category to the main categories container
+                categoriesContainer.appendChild(categoryDiv);
             });
-        }
-    </script>
+        })
+        .catch(error => console.error('Error fetching JSON data:', error));
+</script>
+
 </body>
 </html>
