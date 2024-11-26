@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f9;
         }
         header {
             background-color: #4CAF50;
@@ -16,20 +17,46 @@
             padding: 1rem;
             text-align: center;
         }
-        .category, .categoryListItem {
+        .categoryButton {
             cursor: pointer;
-            margin-top: 1rem;
-            background-color: #f1f1f1;
+            background-color: #4CAF50;
+            color: white;
             padding: 10px;
+            margin: 10px 0;
+            border: none;
             border-radius: 5px;
+            text-align: left;
+            width: 100%;
             font-weight: bold;
         }
-        .rulesList {
-            display: none;
+        .categoryButton:hover {
+            background-color: #45a049;
+        }
+        .rulesContainer {
             padding-left: 20px;
+            display: none;
+            margin-top: 10px;
         }
         .ruleItem {
             margin: 5px 0;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .categoryList {
+            margin-top: 20px;
+        }
+        .backButton {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .backButton:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -39,16 +66,14 @@
     </header>
 
     <section id="basicRulesContainer">
-        <h2>Basic Rules</h2>
-        <!-- Categories will appear here dynamically -->
+        <button class="categoryButton" onclick="toggleCategoryList()">Basic Rules</button>
+        <div id="categoryList" class="categoryList" style="display:none;"></div>
     </section>
 
     <section id="categoryDetails" style="display: none;">
         <h2>Category Details</h2>
-        <button onclick="backToCategories()">Back to Categories</button>
-        <div id="rulesContainer">
-            <!-- Rules for selected category will appear here -->
-        </div>
+        <button class="backButton" onclick="backToCategories()">Back to Categories</button>
+        <div id="rulesContainer"></div>
     </section>
 
     <script>
@@ -68,21 +93,22 @@
 
         // Function to display categories
         function displayCategories(rulesData) {
-            const container = document.getElementById("basicRulesContainer");
-            rulesData["Basic Rules"].forEach(category => {
-                const categoryDiv = document.createElement("div");
-                categoryDiv.classList.add("categoryListItem");
-                categoryDiv.textContent = category.category;
-                categoryDiv.onclick = () => showCategoryDetails(category);
-                container.appendChild(categoryDiv);
+            const container = document.getElementById("categoryList");
+            const categories = rulesData["Basic Rules"];
+
+            categories.forEach(category => {
+                const categoryButton = document.createElement("button");
+                categoryButton.classList.add("categoryButton");
+                categoryButton.textContent = category.category;
+                categoryButton.onclick = () => toggleRules(category);
+                container.appendChild(categoryButton);
             });
+
+            document.getElementById("categoryList").style.display = "block";
         }
 
-        // Function to show category details
-        function showCategoryDetails(category) {
-            document.getElementById("basicRulesContainer").style.display = "none";
-            document.getElementById("categoryDetails").style.display = "block";
-
+        // Function to toggle display of rules
+        function toggleRules(category) {
             const rulesContainer = document.getElementById("rulesContainer");
             rulesContainer.innerHTML = "";  // Clear any previous content
 
@@ -92,12 +118,22 @@
                 ruleItem.textContent = rule;
                 rulesContainer.appendChild(ruleItem);
             });
+
+            const rulesContainerDisplay = rulesContainer.style.display === "block" ? "none" : "block";
+            rulesContainer.style.display = rulesContainerDisplay;
         }
 
         // Function to go back to the categories list
         function backToCategories() {
             document.getElementById("categoryDetails").style.display = "none";
             document.getElementById("basicRulesContainer").style.display = "block";
+            document.getElementById("categoryList").style.display = "block";
+        }
+
+        // Function to toggle the visibility of the category list
+        function toggleCategoryList() {
+            const categoryList = document.getElementById("categoryList");
+            categoryList.style.display = categoryList.style.display === "block" ? "none" : "block";
         }
     </script>
 </body>
