@@ -71,45 +71,47 @@
                 const categoriesContainer = document.getElementById('categories');
 
                 // Iterate over each category in the JSON data
-                data.BasicRules.forEach(category => {
-                    // Create category div
-                    const categoryDiv = document.createElement('div');
-                    categoryDiv.classList.add('category');
+                Object.keys(data).forEach(mainCategoryKey => {
+                    const mainCategory = data[mainCategoryKey];
 
-                    // Create category header (for toggling)
-                    const categoryHeader = document.createElement('button');
-                    categoryHeader.classList.add('category-header');
-                    categoryHeader.textContent = category.category;
+                    // Create main category div
+                    const mainCategoryDiv = document.createElement('div');
+                    mainCategoryDiv.classList.add('category');
 
-                    // Create content div for this category
-                    const categoryContent = document.createElement('div');
-                    categoryContent.classList.add('category-content');
+                    // Create main category header (for toggling)
+                    const mainCategoryHeader = document.createElement('button');
+                    mainCategoryHeader.classList.add('category-header');
+                    mainCategoryHeader.textContent = mainCategoryKey;
+
+                    // Create content div for this main category
+                    const mainCategoryContent = document.createElement('div');
+                    mainCategoryContent.classList.add('category-content');
                     
-                    // Add the rules to this category
-                    category.rules.forEach(rule => {
-                        const rulePara = document.createElement('p');
+                    // Add the subcategories to this main category
+                    mainCategory.forEach(subCategory => {
+                        const subCategoryPara = document.createElement('p');
 
-                        // Check if rule is a string before using replace
-                        if (typeof rule === 'string') {
-                            rulePara.innerHTML = rule.replace(/\n/g, '<br>'); // Replace newlines with <br>
+                        // Check if subCategory is a string before using replace
+                        if (typeof subCategory === 'string') {
+                            subCategoryPara.innerHTML = subCategory.replace(/\n/g, '<br>'); // Replace newlines with <br>
                         } else {
-                            rulePara.textContent = JSON.stringify(rule); // If not a string, show it as JSON for debugging
+                            subCategoryPara.textContent = JSON.stringify(subCategory); // If not a string, show it as JSON for debugging
                         }
 
-                        categoryContent.appendChild(rulePara);
+                        mainCategoryContent.appendChild(subCategoryPara);
                     });
 
                     // Toggle content visibility on header click
-                    categoryHeader.addEventListener('click', () => {
-                        categoryContent.style.display = categoryContent.style.display === 'block' ? 'none' : 'block';
+                    mainCategoryHeader.addEventListener('click', () => {
+                        mainCategoryContent.style.display = mainCategoryContent.style.display === 'block' ? 'none' : 'block';
                     });
 
-                    // Append header and content to category div
-                    categoryDiv.appendChild(categoryHeader);
-                    categoryDiv.appendChild(categoryContent);
+                    // Append header and content to main category div
+                    mainCategoryDiv.appendChild(mainCategoryHeader);
+                    mainCategoryDiv.appendChild(mainCategoryContent);
 
-                    // Append category to the main categories container
-                    categoriesContainer.appendChild(categoryDiv);
+                    // Append main category to the main categories container
+                    categoriesContainer.appendChild(mainCategoryDiv);
                 });
             })
             .catch(error => console.error('Error fetching JSON data:', error));
