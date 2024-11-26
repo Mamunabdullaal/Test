@@ -1,451 +1,222 @@
-{
-    "BasicRules": [
-        {
-            "category": "Brand Not Same",
-            "rules": [
-                [
-                    "Phone Product Brand and Model দেখতে হবে।",
-                    "Ex: Left Side: Oppo, Right Side: Honor, এগুলোকে 'Brand Not Same' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Auto Accessories - Brand Not Same",
-            "rules": [
-                [
-                    "Auto Accessories যে ব্র্যান্ডের জন্য তৈরি, সেটা দেখতে হবে।",
-                    "Ex: Left Side: Nissan, Right Side: Chevy, এগুলোকে 'Brand Not Same' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Auto Accessories - Same Product",
-            "rules": [
-                [
-                    "Auto Accessories নির্দিষ্ট ব্র্যান্ড এবং বছর অনুযায়ী তৈরি হলে, যখন ব্র্যান্ড এবং বছর দুটোই একই হয়, তখন তাদেরকে একই পণ্য হিসেবে ধরা হবে।",
-                    "Ex: যদি BMW এর জন্য দুটি Auto Accessories থাকে, কিন্তু বছর ভিন্ন, যেমন একটি 2023-2024 এবং অন্যটি 2019-2022, তাহলে এগুলোকে 'Brand Not Same' হিসেবে Mark করতে হবে এবং 'Choose Other Reason' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Category Not Same",
-            "rules": [
-                [
-                    "যদি Left পণ্য Poster হয় এবং Right পণ্য Canvas painting হয়,",
-                    "তাহলে এগুলোকে 'Category Not Same' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "যদি Left পণ্য Doll হয় এবং Right পণ্য Doll cloth হয়,",
-                    "তাহলে এগুলোকে 'Category Not Same' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "Ex: Left: Blanket, Right: Pillow cover,",
-                    "এগুলোকে 'Category Not Same' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "যদি 'Not Same' এর কারণ উপরের টাইপগুলোর মধ্যে না আসে,",
-                    "তবে 'Other' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "Ex: Left: 4K, Right: 480P,",
-                    "এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "For Phone Cases, Earphone Cases, Screen Protectors",
-            "rules": [
-                [
-                    "Appearance, Material, Brand, এবং Magnetic Function এর উপর লক্ষ্য রাখতে হবে।",
-                    "যদি দুটি পণ্য একই ব্র্যান্ডের জন্য তৈরি হয়, তবে Phone Model গুরুত্বপূর্ন নয়।",
-                    "Ex: Left: Phone case made for iPhone 14 Pro, Right: Phone case made for iPhone 11, এর Appearance এবং Brand একই হওয়ায়, এগুলোকে 'Same' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "About Laptop",
-            "rules": [
-                [
-                    "Model, RAM, ROM, SSD, Screen Size, Resolution, এবং Processor এর মত স্পেসিফিকেশনগুলোতে লক্ষ্য রাখতে হবে।",
-                    "অন্যান্য গুরুত্বপূর্ণ স্পেসিফিকেশন: Graphics Card, Operating System, Battery Life, Ports (USB, HDMI, etc.)"
-                ]
-            ]
-        },
-        {
-            "category": "About Earphone",
-            "rules": [
-                [
-                    "Left: 500mAh, Right: 380mAh,",
-                    "এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "About Some Electrical Equipment",
-            "rules": [
-                [
-                    "Battery Capacity, Voltage, Wattage, Plug Size, Power Supply Modes, ইত্যাদি স্পেসিফিকেশনগুলোতে লক্ষ্য রাখতে হবে।",
-                    "Ex 1: Left: USB charger, Right: Battery powered, এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "Ex 2: Left: 60V, Right: 12V (Voltage different),",
-                    "এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "Attention: শুধুমাত্র পণ্য টাইটেল, SKU টাইটেল, বা ছবি থেকে দেখা Voltage এর তুলনা করতে হবে।",
-                    "Ex 3: Left: 10AH = 10000mAh, Right: 7AH = 7000mAh (Battery capacity different),",
-                    "এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "About Violin",
-            "rules": [
-                [
-                    "Size, Material, Appearance, ইত্যাদি স্পেসিফিকেশনগুলোতে লক্ষ্য রাখতে হবে।",
-                    "Ex: Left: 4/4 size, Right: 1/4 size, এগুলোকে 'Size Not Same' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "About Bed Frame and Mattress",
-            "rules": [
-                [
-                    "Bed Frame এবং Mattress এর বিভিন্ন সাইজ থাকে, যেমন Twin, Twin XL, King, Queen, Full, ইত্যাদি।",
-                    "Ex: Left: Full, Right: Twin, এগুলোকে 'Size Not Same' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "About Book Items",
-            "rules": [
-                [
-                    "ISBN তথ্য যাচাই করার সময় সঠিকভাবে মিলিয়ে দেখতে হবে।",
-                    "ISBN এর দুটি ধরনের সংখ্যা থাকে, একটি 10-digit এবং একটি 13-digit। এই দুইটি old এবং new encoding পদ্ধতির পার্থক্য।"
-                ],
-                [
-                    "10-digit ISBN কেবলমাত্র অন্য 10-digit ISBN এর সাথে মিলিয়ে দেখতে হবে এবং 13-digit ISBN কেবলমাত্র অন্য 13-digit ISBN এর সাথে মিলিয়ে দেখতে হবে।",
-                    "যদি ISBN এর কোনো সংখ্যা মিল না খায়, তবে পণ্যটিকে আলাদা হিসেবে ধরা হবে।"
-                ],
-                [
-                    "Ex: Left: ISBN 10-digit, Right: ISBN 10-digit,",
-                    "এগুলোকে একই পণ্য হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Special Cases",
-            "rules": [
-                [
-                    "Tape, Tablet Cases, Tablet Bags, Express Bags, Some Industrial Equipment, ইত্যাদির জন্য 0-3cm error range প্রযোজ্য নয়।",
-                    "তাদের সাইজ পুরোপুরি একই হতে হবে যাতে তারা Same হিসেবে Mark করা যায়।"
-                ],
-                [
-                    "Ex: Left: Width is 3cm and length is 20m, Right: Width is 10cm and length is 20m,",
-                    "তাদের width আলাদা হওয়ায়, এগুলোকে 'Size Not Same' হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "Tape এর জন্য, দুটি পণ্যকে Same হিসেবে Mark করতে হলে তাদের width, length, এবং thickness পুরোপুরি consistent থাকতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "About Error Range <=10%",
-            "rules": [
-                [
-                    "এটি industry-recognized size standards না থাকা Industrial Hardware এর জন্য প্রযোজ্য।",
-                    "অন্য সব পণ্যের জন্য, আমরা Error Range <=3cm অনুসরণ করতে পারি।"
-                ],
-                [
-                    "For Industrial Hardware with Industry-Recognized Size Standards,",
-                    "এই পণ্যের size পুরোপুরি একই হতে হবে।"
-                ]
-            ]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Moderation Rules</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2c2c2c; /* Dark gray background */
+            color: #f1f1f1; /* Light text color for readability */
         }
-    ],
-    "Beauty and Personal": [
-        {
-            "category": "Wig Rules",
-            "rules": [
-                [
-                    "Wig Type:",
-                    "Machine Weft Wig এবং Full Lace Wig আলাদা। কিছু Wig মেশিন দিয়ে তৈরি, আর কিছু হাতে তৈরি।"
-                ],
-                [
-                    "Glue or Glueless:",
-                    "Glueless Wig এবং Glue Wig আলাদা। Glue Wig-এ Glue ব্যবহার হয়, কিন্তু Glueless Wig-এ Glue ব্যবহার হয় না।"
-                ],
-                [
-                    "Lace Area:",
-                    "13x4 lace wig এবং 360° lace wig আলাদা। সাধারণ Lace সাইজ: 2”X4”, 2”X6”, 3.5”X4”, 4”X4”, 5”X5”, 6”X6”, 13”X4”, 360° (22.5”X4”X2”)"
-                ],
-                [
-                    "Lace Density:",
-                    "50% density: বৃদ্ধাদের জন্য উপযুক্ত। 150%, 180%, 200% density: তরুণদের জন্য উপযুক্ত।"
-                ],
-                [
-                    "Wig Color:",
-                    "Wig Color যদি না মেলে, তবে এগুলোকে 'Not Same' হিসেবে Mark করতে হবে। যদি Wig Color দেখতে একই রকম হয় এবং SKU টাইটেলও সঠিক থাকে, তবে এগুলোকে 'Same' হিসেবে Mark করা যাবে।"
-                ],
-                [
-                    "Wig Size, Length:",
-                    "Left: 32in, Right: 30in - Wig Size আলাদা, তাই 'Size Not Same'। Wig Size-এ 3cm error range প্রয়োগ করা যাবে না। Wig Size একদম একই হতে হবে।"
-                ],
-                [
-                    "Appearance:",
-                    "Large Waves এবং Small Waves দেখতে আলাদা হতে পারে।"
-                ]
-            ]
-        },
-        {
-            "category": "Lipstick, Lip Glaze, Lip Liner, Lip Gloss",
-            "rules": [
-                [
-                    "Type/Texture Different:",
-                    "Matte, Glossy, Lip Glaze, Glitter, Shimmer এগুলো ভিন্ন টাইপ/টেক্সচার।"
-                ],
-                [
-                    "Weight/Volume Different:",
-                    "যেমন: 3.5g, 4.5g, 2.1ml, 5ml। Lipstick Color বা Shade গুরুত্বপূর্ন নয়।",
-                    "Ex: Left: 302 color, Right: 502 color - এগুলোকে 'Same' হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Foundation, Liquid Foundation, Air Cushion",
-            "rules": [
-                [
-                    "Volume:",
-                    "যেমন: 5ml, 15ml, 30ml।"
-                ],
-                [
-                    "Sun Protection:",
-                    "SPF50+ বা SPF30+।"
-                ],
-                [
-                    "Brand:",
-                    "যেমন: Chanel, YSL ইত্যাদি।"
-                ],
-                [
-                    "Criteria that don’t matter:",
-                    "Coverage strength, makeup effect, এবং color।"
-                ]
-            ]
-        },
-        {
-            "category": "Brushes for Makeup",
-            "rules": [
-                [
-                    "Appearance/Function:",
-                    "Eyebrow brush, Powder brush ইত্যাদি।"
-                ],
-                [
-                    "Material of Brush Handle:",
-                    "ABS, Wood ইত্যাদি।"
-                ]
-            ]
-        },
-        {
-            "category": "Perfume",
-            "rules": [
-                [
-                    "Fragrance Type Doesn’t Matter:",
-                    "ফ্র্যাগ্রেন্স টাইপ গুরুত্বপূর্ণ নয়।"
-                ],
-                [
-                    "Packaging:",
-                    "যদি প্যাকেজিং একদম একরকম হয়, কিন্তু কিছু তথ্য (যেমন, organic label) অনুপস্থিত থাকে, তবে এগুলোকে 'Same' হিসেবে Mark করা যাবে।"
-                ]
-            ]
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
         }
-    ],
-    "FoodIndustryRules": [
-        {
-            "category": "Brand Notes",
-            "rules": [
-                [
-                    "Brand Name:",
-                    "যদি খাবারের ব্র্যান্ড নাম দেওয়া থাকে এবং নামটি একদম আলাদা হয়, তবে সেটি আলাদা পণ্য হিসেবে ধরা হবে।"
-                ],
-                [
-                    "Weight:",
-                    "খাবারের ওজনও দেখতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Food Taste Notes",
-            "rules": [
-                [
-                    "Same Taste:",
-                    "একই ব্র্যান্ডের পণ্য একই স্বাদের হলে, এগুলোকে একই পণ্য হিসেবে ধরা হবে।"
-                ],
-                [
-                    "Different Taste:",
-                    "একই ব্র্যান্ডের হলেও যদি স্বাদ আলাদা হয়, তবে এগুলোকে আলাদা পণ্য হিসেবে ধরা হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Food Packaging Notes",
-            "rules": [
-                [
-                    "Same Packaging Material:",
-                    "যদি প্যাকেজিং উপাদান একই হয় (যেমন: প্লাস্টিক বা কাগজ), তবে প্যাকেজিংয়ের পার্থক্য উপেক্ষা করা যাবে। একে এক পণ্য হিসেবে ধরা হবে।"
-                ],
-                [
-                    "Different Packaging Materials:",
-                    "প্যাকেজিং উপাদান আলাদা হলে (যেমন: প্লাস্টিক, গ্লাস, বা ধাতু), এগুলোকে আলাদা পণ্য হিসেবে ধরা হবে।"
-                ],
-                [
-                    "Commemorative or Co-branded Packaging:",
-                    "কম্বিনেশন বা স্মরণীয় প্যাকেজিং আলাদা পণ্য হিসেবে ধরা হবে।"
-                ],
-                [
-                    "Bulk Packaging (No Packaging Shown):",
-                    "যদি প্যাকেজিং না দেখানো হয় এবং ছবি বাল্ক (প্লাস্টিক ব্যাগ) থাকে, তাহলে ডিফল্ট প্যাকেজিং প্লাস্টিক ব্যাগ হবে।"
-                ]
-            ]
+
+        .category-header, .main-category-header {
+            background-color: #4CAF50; /* Basic Rules Button */
+            color: white;
+            padding: 15px;
+            border: none;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
         }
-    ],
-    "category": "Pets Supplies",
-    "rules": [
-        {
-            "category": "Cage সম্পর্কিত",
-            "rules": [
-                [
-                    "Appearance আলাদা: cover সহ বা cover ছাড়া।"
-                ]
-            ]
-        },
-        {
-            "category": "Cat Food এবং Dog Food সম্পর্কিত",
-            "rules": [
-                [
-                    "Cat food এবং Dog food আলাদা।"
-                ],
-                [
-                    "Adult dogs/puppies এবং adult cats/kittens আলাদা।"
-                ],
-                [
-                    "Cat food এবং Dog food-এর Taste আলাদা হতে পারে।"
-                ],
-                [
-                    "Brand গুরুত্বপূর্ণ।"
-                ]
-            ]
-        },
-        {
-            "category": "Pet Clothing সম্পর্কিত",
-            "rules": [
-                [
-                    "Left এবং Right item-এ specific size (যেমন “S”, “M”, “L” বা 0-3 Months, 1 year old) থাকলে, তা আলাদা।"
-                ],
-                [
-                    "Size information না থাকলে, 3cm error range allowed।"
-                ],
-                [
-                    "Bedding এর তুলনায়, Pet Clothing-এ material ratio নয়, material type গুরুত্বপূর্ণ (যেমন pure cotton vs. polyester)।"
-                ],
-                [
-                    "Multiple materials থাকলে, যদি main materials এক থাকে, তাহলে same product ধরা যাবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Automatic Cat Litter Box সম্পর্কিত",
-            "rules": [
-                [
-                    "Focus on: App control/remote control থাকা বা না থাকা।"
-                ],
-                [
-                    "Capacity (8.5L, 10L)।"
-                ],
-                [
-                    "Appearance।"
-                ]
-            ]
+
+        /* Hover effect for Basic Rules button */
+        .category-header:hover, .main-category-header:hover {
+            background-color: #45a049;
         }
-    ],
-    "Adult & Sporting Goods": [
-        {
-            "category": "Adult Products - Inflatable Dolls/Silicone Dolls",
-            "rules": [
-                [
-                    "Set Issues: ",
-                    "গিফটের প্রকার এবং পরিমাণ মূল বিষয় নয়। যদি দুটি একই পণ্য হয়, তবে গিফটের পরিমাণ এবং আকার বিচার করতে হবে না।"
-                ],
-                [
-                    "Random Clothing: ",
-                    "যদি কোনো পণ্যে এলোমেলো পোশাক থাকে, তবে পণ্যের দাম মেলাতে সমস্যা নেই, যতক্ষণ না পোশাকটি মিলছে।"
-                ]
-            ]
-        },
-        {
-            "category": "Adult Products - Sex Toys",
-            "rules": [
-                [
-                    "Condoms: ",
-                    "সাইজ অনেক গুরুত্বপূর্ণ। যদি দুটি কন্ডোমের সাইজ (যেমন 50mm ও 45mm) আলাদা হয়, তবে সেগুলোকে আলাদা পণ্য হিসেবে ধরা হবে, এবং সাইজ একই হলে তা একই মডেল হবে।"
-                ],
-                [
-                    "Dildo: ",
-                    "প্রধান পার্থক্য হল বৈদ্যুতিক ফিচার থাকা বা না থাকা। যেমন, বামটি বৈদ্যুতিক ফিচারসহ এবং ডানটি বৈদ্যুতিক ফিচার ছাড়া।"
-                ]
-            ]
-        },
-        {
-            "category": "Fitness Equipment",
-            "rules": [
-                [
-                    "Dumbbells, Training Racks, Treadmills, Bicycles, Electric Bikes: ",
-                    "এগুলোর জন্য গুরুত্বপূর্ণ বিষয় হচ্ছে ওজন, লোড বিয়ারিং ক্ষমতা, গতি, হর্সপাওয়ার ইত্যাদি। এগুলোর জন্য নির্দিষ্ট গুরুত্বপূর্ণ চিহ্নিত পয়েন্ট দেওয়া হয়েছে।"
-                ]
-            ]
+
+        /* Style for other category buttons */
+        .category-header:not(.main-category-header) {
+            background-color: #2196F3; /* Blue color for category buttons */
         }
-    ],
-    "Home & Yard": [
-        {
-            "category": "Bedding Filling Material Proportion",
-            "rules": [
-                [
-                    "A. যখন উপাদানের শ্রেণী আলাদা হয়, যেমন: velvet (বামপাশ) এবং silk (ডানপাশ), তখন এগুলোকে \"Not Same\" হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "B. যদি উপাদানের শ্রেণী একই হয়, তবে উভয় পাশে উপাদানের proportion মেলানো প্রয়োজন। যদি কোনো পাশের proportion তথ্য অনুপস্থিত থাকে, তবে তা same হিসেবে Mark করতে হবে। উদাহরণ: 30% Polyester + Feather = Polyester + Feather"
-                ]
-            ]
-        },
-        {
-            "category": "Bedding Category",
-            "rules": [
-                [
-                    "A. Pillow (বালিশ) এবং Pillow Case (বালিশের কভার), Pillow Core (বালিশের ভিতর) আলাদা শ্রেণী, তাই এগুলো \"Not Same\" হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "B. Quilt (কম্বল) এবং Quilt Cover (কম্বল কভার) আলাদা শ্রেণী, তাই এগুলো \"Not Same\" হিসেবে Mark করতে হবে।"
-                ],
-                [
-                    "C. Zipper Pillow (জিপার বালিশ) এবং Button Pillow (বাটন বালিশ) আলাদা, তাই এগুলো \"Not Same\" হিসেবে Mark করতে হবে।"
-                ]
-            ]
-        },
-        {
-            "category": "Plant Seed",
-            "rules": [
-                [
-                    "A. ভিন্ন varieties (জাত) Not Same হবে। উদাহরণ: Common Tomato (বামপাশ), Tomato Pepper (ডানপাশ)"
-                ],
-                [
-                    "B. ভিন্ন Color (রঙ) Not Same হবে।"
-                ],
-                [
-                    "C. ভিন্ন production places (উৎপাদন স্থান) Not Same হবে। উদাহরণ: Virginia Tomato (বামপাশ), Italian Roma Tomato (ডানপাশ) নোট: যদি কোনো পক্ষের origin information (উৎপত্তি তথ্য) অনুপস্থিত থাকে, তবে তা same হিসেবে Mark করা হবে।"
-                ],
-                [
-                    "D. ভিন্ন quantities (পরিমাণ) আলাদা হবে।"
-                ]
-            ]
+
+        .category-header:not(.main-category-header):hover {
+            background-color: #1976D2; /* Darker blue on hover */
         }
-    ]
-}
+
+        .category-content {
+            padding: 10px;
+            margin: 0;
+            background-color: #333; /* Dark background for content */
+            display: none;
+            border: 1px solid #444; /* Slightly lighter border */
+            margin-bottom: 10px;
+        }
+
+        .category-content p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #e0e0e0; /* Light text color in content */
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #fff; /* White color for the header */
+        }
+
+        .main-category {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Content Moderation Rules</h1>
+
+        <!-- Main Category Toggle Button for Basic Rules -->
+        <button class="main-category-header" id="basicRulesButton">Basic Rules</button>
+        <div id="basicRulesContent" style="display: none;">
+            <div id="basicCategories"></div>
+        </div>
+
+        <!-- Main Category Toggle Button for Beauty and Personal -->
+        <button class="main-category-header" id="beautyAndPersonalButton">Beauty and Personal</button>
+        <div id="beautyAndPersonalContent" style="display: none;">
+            <div id="beautyCategories"></div>
+        </div>
+
+        <!-- Main Category Toggle Button for Food Industry Rules -->
+        <button class="main-category-header" id="foodIndustryRulesButton">Food Industry Rules</button>
+        <div id="foodIndustryRulesContent" style="display: none;">
+            <div id="foodIndustryCategories"></div>
+        </div>
+
+        <!-- Main Category Toggle Button for Pet Supplies -->
+        <button class="main-category-header" id="petSuppliesButton">Pet Supplies</button>
+        <div id="petSuppliesContent" style="display: none;">
+            <div id="petSuppliesCategories"></div>
+        </div>
+
+        <!-- Main Category Toggle Button for Adult & Sporting Goods -->
+        <button class="main-category-header" id="adultSportingGoodsButton">Adult & Sporting Goods</button>
+        <div id="adultSportingGoodsContent" style="display: none;">
+            <div id="adultSportingGoodsCategories"></div>
+        </div>
+
+        <!-- Main Category Toggle Button for Home & Yard -->
+        <button class="main-category-header" id="homeYardButton">Home & Yard</button>
+        <div id="homeYardContent" style="display: none;">
+            <div id="homeYardCategories"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Fetch and display Basic Rules
+        fetch('https://raw.githubusercontent.com/Mamunabdullaal/Json/refs/heads/main/rules.json')
+            .then(response => response.json())
+            .then(data => {
+                const basicCategoriesContainer = document.getElementById('basicCategories');
+                const beautyCategoriesContainer = document.getElementById('beautyCategories');
+                const foodIndustryCategoriesContainer = document.getElementById('foodIndustryCategories');
+                const petSuppliesCategoriesContainer = document.getElementById('petSuppliesCategories');
+                const adultSportingGoodsCategoriesContainer = document.getElementById('adultSportingGoodsCategories');
+                const homeYardCategoriesContainer = document.getElementById('homeYardCategories');
+
+                // Function to create category sections from JSON data
+                function createCategorySections(categories, container) {
+                    categories.forEach(category => {
+                        const categoryDiv = document.createElement('div');
+                        categoryDiv.classList.add('category');
+
+                        const categoryHeader = document.createElement('button');
+                        categoryHeader.classList.add('category-header');
+                        categoryHeader.textContent = category.category;
+
+                        const categoryContent = document.createElement('div');
+                        categoryContent.classList.add('category-content');
+                        
+                        category.rules.forEach(rule => {
+                            const rulePara = document.createElement('p');
+                            if (typeof rule === 'string') {
+                                rulePara.innerHTML = rule.replace(/\n/g, '<br>');
+                            } else {
+                                rulePara.textContent = JSON.stringify(rule);
+                            }
+                            categoryContent.appendChild(rulePara);
+                        });
+
+                        categoryHeader.addEventListener('click', () => {
+                            categoryContent.style.display = categoryContent.style.display === 'block' ? 'none' : 'block';
+                        });
+
+                        categoryDiv.appendChild(categoryHeader);
+                        categoryDiv.appendChild(categoryContent);
+                        container.appendChild(categoryDiv);
+                    });
+                }
+
+                // Create Basic Rules sections
+                createCategorySections(data.BasicRules, basicCategoriesContainer);
+
+                // Create Beauty and Personal sections
+                createCategorySections(data['Beauty and Personal'], beautyCategoriesContainer);
+
+                // Create Food Industry Rules sections
+                createCategorySections(data.FoodIndustryRules, foodIndustryCategoriesContainer);
+
+                // Create Pet Supplies sections
+                createCategorySections(data['Pet Supplies'], petSuppliesCategoriesContainer);
+
+                // Create Adult & Sporting Goods sections
+                createCategorySections(data['Adult & Sporting Goods'], adultSportingGoodsCategoriesContainer);
+
+                // Create Home & Yard sections
+                createCategorySections(data['Home & Yard'], homeYardCategoriesContainer);
+            })
+            .catch(error => console.error('Error fetching JSON data:', error));
+
+        // Basic Rules Button functionality
+        document.getElementById('basicRulesButton').addEventListener('click', () => {
+            const basicRulesContent = document.getElementById('basicRulesContent');
+            basicRulesContent.style.display = basicRulesContent.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Beauty and Personal Button functionality
+        document.getElementById('beautyAndPersonalButton').addEventListener('click', () => {
+            const beautyAndPersonalContent = document.getElementById('beautyAndPersonalContent');
+            beautyAndPersonalContent.style.display = beautyAndPersonalContent.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Food Industry Rules Button functionality
+        document.getElementById('foodIndustryRulesButton').addEventListener('click', () => {
+            const foodIndustryRulesContent = document.getElementById('foodIndustryRulesContent');
+            foodIndustryRulesContent.style.display = foodIndustryRulesContent.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Pet Supplies Button functionality
+        document.getElementById('petSuppliesButton').addEventListener('click', () => {
+            const petSuppliesContent = document.getElementById('petSuppliesContent');
+            petSuppliesContent.style.display = petSuppliesContent.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Adult & Sporting Goods Button functionality
+        document.getElementById('adultSportingGoodsButton').addEventListener('click', () => {
+            const adultSportingGoodsContent = document.getElementById('adultSportingGoodsContent');
+            adultSportingGoodsContent.style.display = adultSportingGoodsContent.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Home & Yard Button functionality
+        document.getElementById('homeYardButton').addEventListener('click', () => {
+            const homeYardContent = document.getElementById('homeYardContent');
+            homeYardContent.style.display = homeYardContent.style.display === 'block' ? 'none' : 'block';
+        });
+    </script>
+
+</body>
+</html>
