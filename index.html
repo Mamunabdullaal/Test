@@ -3,102 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Moderation Rules</title>
+    <title>Rules Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 20px;
         }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 1rem;
+        h1 {
             text-align: center;
+            color: #333;
         }
-        .category, .categoryListItem {
-            cursor: pointer;
-            margin-top: 1rem;
-            background-color: #f1f1f1;
+        .category {
+            margin: 10px 0;
             padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            font-weight: bold;
+            background-color: #f9f9f9;
         }
-        .rulesList {
+        .category-header {
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #007bff;
+            display: flex;
+            justify-content: space-between;
+        }
+        .rules {
             display: none;
+            margin-top: 10px;
             padding-left: 20px;
         }
-        .ruleItem {
-            margin: 5px 0;
+        .rules ul {
+            list-style: disc;
+        }
+        .category-header:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Content Moderation Rules</h1>
-    </header>
-
-    <section id="basicRulesContainer">
-        <h2>Basic Rules</h2>
-        <!-- Categories will appear here dynamically -->
-    </section>
-
-    <section id="categoryDetails" style="display: none;">
-        <h2>Category Details</h2>
-        <button onclick="backToCategories()">Back to Categories</button>
-        <div id="rulesContainer">
-            <!-- Rules for selected category will appear here -->
-        </div>
-    </section>
+    <h1>Rules Viewer</h1>
+    <div id="rules-container"></div>
 
     <script>
-        // URL to your JSON file
-        const jsonUrl = "https://raw.githubusercontent.com/Mamunabdullaal/Json/main/rules.json";
+        // Fetch and display the JSON data
+        const jsonUrl = "https://raw.githubusercontent.com/Mamunabdullaal/Json/refs/heads/main/rules.json";
 
-        // Fetch the rules from the JSON file
+        // Fetch data and render it
         fetch(jsonUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch JSON data");
+                }
+                return response.json();
+            })
             .then(data => {
-                displayCategories(data);
+                const rulesContainer = document.getElementById("rules-container");
+
+                // Iterate through the categories and render each with its rules
+                data["Basic Rules"].forEach(rule => {
+                    const categoryDiv = document.createElement("div");
+                    categoryDiv.classList.add("category");
+
+                    // Category Header
+                    const categoryHeader = document.createElement("div");
+                    categoryHeader.classList.add("category-header");
+                    categoryHeader.innerHTML = `
+                        <span>${rule.category}</span>
+                        <span>+</span>
+                    `;
+                    categoryDiv.appendChild(categoryHeader);
+
+                    // Rules List
+                    const rulesList = document.createElement("div");
+                    rulesList.classList.add("rules");
+                    const ul = document.createElement("ul");
+
+                    rule.rules.forEach(singleRule => {
+                        const li = document.createElement("li");
+                        li.textContent = singleRule;
+                        ul.appendChild(li);
+                    });
+
+                    rulesList.appendChild(ul);
+                    categoryDiv.appendChild(rulesList);
+
+                    // Toggle rules visibility
+                    categoryHeader.addEventListener("click", () => {
+                        const isHidden = rulesList.style.display === "none";
+                        rulesList.style.display = isHidden ? "block" : "none";
+                        categoryHeader.querySelector("span:last-child").textContent = isHidden ? "−" : "+";
+                    });
+
+                    rulesContainer.appendChild(categoryDiv);
+                });
             })
             .catch(error => {
-                console.error("Error fetching rules:", error);
-                document.getElementById("basicRulesContainer").innerHTML = "<p>Failed to load rules.</p>";
+                console.error("Error fetching or displaying JSON data:", error);
+                document.getElementById("rules-container").textContent = "Failed to load rules.";
             });
-
-        // Function to display categories
-        function displayCategories(rulesData) {
-            const container = document.getElementById("basicRulesContainer");
-            rulesData["Basic Rules"].forEach(category => {
-                const categoryDiv = document.createElement("div");
-                categoryDiv.classList.add("categoryListItem");
-                categoryDiv.textContent = category.category;
-                categoryDiv.onclick = () => showCategoryDetails(category);
-                container.appendChild(categoryDiv);
-            });
-        }
-
-        // Function to show category details
-        function showCategoryDetails(category) {
-            document.getElementById("basicRulesContainer").style.display = "none";
-            document.getElementById("categoryDetails").style.display = "block";
-
-            const rulesContainer = document.getElementById("rulesContainer");
-            rulesContainer.innerHTML = "";  // Clear any previous content
-
-            category.rules.forEach(rule => {
-                const ruleItem = document.createElement("div");
-                ruleItem.classList.add("ruleItem");
-                ruleItem.textContent = rule;
-                rulesContainer.appendChild(ruleItem);
-            });
-        }
-
-        // Function to go back to the categories list
-        function backToCategories() {
-            document.getElementById("categoryDetails").style.display = "none";
-            document.getElementById("basicRulesContainer").style.display = "block";
-        }
     </script>
 </body>
 </html>
