@@ -1,107 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rules Viewer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .category {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .category-header {
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #007bff;
-            display: flex;
-            justify-content: space-between;
-        }
-        .rules {
-            display: none;
-            margin-top: 10px;
-            padding-left: 20px;
-        }
-        .rules ul {
-            list-style: disc;
-        }
-        .category-header:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <h1>Rules Viewer</h1>
-    <div id="rules-container"></div>
-
-    <script>
-        // Fetch and display the JSON data
-        const jsonUrl = "https://raw.githubusercontent.com/Mamunabdullaal/Json/refs/heads/main/rules.json";
-
-        // Fetch data and render it
-        fetch(jsonUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Failed to fetch JSON data");
-                }
-                return response.json();
-            })
-            .then(data => {
-                const rulesContainer = document.getElementById("rules-container");
-
-                // Iterate through the categories and render each with its rules
-                data["Basic Rules"].forEach(rule => {
-                    const categoryDiv = document.createElement("div");
-                    categoryDiv.classList.add("category");
-
-                    // Category Header
-                    const categoryHeader = document.createElement("div");
-                    categoryHeader.classList.add("category-header");
-                    categoryHeader.innerHTML = `
-                        <span>${rule.category}</span>
-                        <span>+</span>
-                    `;
-                    categoryDiv.appendChild(categoryHeader);
-
-                    // Rules List
-                    const rulesList = document.createElement("div");
-                    rulesList.classList.add("rules");
-                    const ul = document.createElement("ul");
-
-                    rule.rules.forEach(singleRule => {
-                        const li = document.createElement("li");
-                        li.textContent = singleRule;
-                        ul.appendChild(li);
-                    });
-
-                    rulesList.appendChild(ul);
-                    categoryDiv.appendChild(rulesList);
-
-                    // Toggle rules visibility
-                    categoryHeader.addEventListener("click", () => {
-                        const isHidden = rulesList.style.display === "none";
-                        rulesList.style.display = isHidden ? "block" : "none";
-                        categoryHeader.querySelector("span:last-child").textContent = isHidden ? "−" : "+";
-                    });
-
-                    rulesContainer.appendChild(categoryDiv);
-                });
-            })
-            .catch(error => {
-                console.error("Error fetching or displaying JSON data:", error);
-                document.getElementById("rules-container").textContent = "Failed to load rules.";
-            });
-    </script>
-</body>
-</html>
+{
+  "BasicRules": [
+    {
+      "category": "Brand Not Same",
+      "rules": [
+        "Phone Product Brand and Model দেখতে হবে।",
+        "Ex: Left Side: Oppo, Right Side: Honor, এগুলোকে 'Brand Not Same' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "Auto Accessories - Brand Not Same",
+      "rules": [
+        "Auto Accessories যে ব্র্যান্ডের জন্য তৈরি, সেটা দেখতে হবে।",
+        "Ex: Left Side: Nissan, Right Side: Chevy, এগুলোকে 'Brand Not Same' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "Auto Accessories - Same Product",
+      "rules": [
+        "Auto Accessories নির্দিষ্ট ব্র্যান্ড এবং বছর অনুযায়ী তৈরি হলে, যখন ব্র্যান্ড এবং বছর দুটোই একই হয়, তখন তাদেরকে একই পণ্য হিসেবে ধরা হবে।",
+        "Ex: যদি BMW এর জন্য দুটি Auto Accessories থাকে, কিন্তু বছর ভিন্ন, যেমন একটি 2023-2024 এবং অন্যটি 2019-2022, তাহলে এগুলোকে 'Brand Not Same' হিসেবে Mark করতে হবে এবং 'Choose Other Reason' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "Category Not Same",
+      "rules": [
+        "যদি Left পণ্য Poster হয় এবং Right পণ্য Canvas painting হয়, তাহলে এগুলোকে 'Category Not Same' হিসেবে Mark করতে হবে।",
+        "যদি Left পণ্য Doll হয় এবং Right পণ্য Doll cloth হয়, তাহলে এগুলোকে 'Category Not Same' হিসেবে Mark করতে হবে।",
+        "Ex: Left: Blanket, Right: Pillow cover, এগুলোকে 'Category Not Same' হিসেবে Mark করতে হবে।",
+        "যদি 'Not Same' এর কারণ উপরের টাইপগুলোর মধ্যে না আসে, তবে 'Other' হিসেবে Mark করতে হবে।",
+        "Ex: Left: 4K, Right: 480P, এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "For Phone Cases, Earphone Cases, Screen Protectors",
+      "rules": [
+        "Appearance, Material, Brand, এবং Magnetic Function এর উপর লক্ষ্য রাখতে হবে।",
+        "যদি দুটি পণ্য একই ব্র্যান্ডের জন্য তৈরি হয়, তবে Phone Model গুরুত্বপূর্ন নয়।",
+        "Ex: Left: Phone case made for iPhone 14 Pro, Right: Phone case made for iPhone 11, এর Appearance এবং Brand একই হওয়ায়, এগুলোকে 'Same' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "About Laptop",
+      "rules": [
+        "Model, RAM, ROM, SSD, Screen Size, Resolution, এবং Processor এর মত স্পেসিফিকেশনগুলোতে লক্ষ্য রাখতে হবে।",
+        "অন্যান্য গুরুত্বপূর্ণ স্পেসিফিকেশন: Graphics Card, Operating System, Battery Life, Ports (USB, HDMI, etc.)"
+      ]
+    },
+    {
+      "category": "About Earphone",
+      "rules": [
+        "Left: 500mAh, Right: 380mAh, এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "About Some Electrical Equipment",
+      "rules": [
+        "Battery Capacity, Voltage, Wattage, Plug Size, Power Supply Modes, ইত্যাদি স্পেসিফিকেশনগুলোতে লক্ষ্য রাখতে হবে।",
+        "Ex 1: Left: USB charger, Right: Battery powered, এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।",
+        "Ex 2: Left: 60V, Right: 12V (Voltage different), এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।",
+        "Attention: শুধুমাত্র পণ্য টাইটেল, SKU টাইটেল, বা ছবি থেকে দেখা Voltage এর তুলনা করতে হবে।",
+        "Ex 3: Left: 10AH = 10000mAh, Right: 7AH = 7000mAh (Battery capacity different), এগুলোকে 'Not Same' হিসেবে Mark করতে হবে এবং 'Other' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "About Violin",
+      "rules": [
+        "Size, Material, Appearance, ইত্যাদি স্পেসিফিকেশনগুলোতে লক্ষ্য রাখতে হবে।",
+        "Ex: Left: 4/4 size, Right: 1/4 size, এগুলোকে 'Size Not Same' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "About Bed Frame and Mattress",
+      "rules": [
+        "Bed Frame এবং Mattress এর বিভিন্ন সাইজ থাকে, যেমন Twin, Twin XL, King, Queen, Full, ইত্যাদি।",
+        "Ex: Left: Full, Right: Twin, এগুলোকে 'Size Not Same' হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "About Book Items",
+      "rules": [
+        "ISBN তথ্য যাচাই করার সময় সঠিকভাবে মিলিয়ে দেখতে হবে।",
+        "ISBN এর দুটি ধরনের সংখ্যা থাকে, একটি 10-digit এবং একটি 13-digit। এই দুইটি old এবং new encoding পদ্ধতির পার্থক্য।",
+        "10-digit ISBN কেবলমাত্র অন্য 10-digit ISBN এর সাথে মিলিয়ে দেখতে হবে এবং 13-digit ISBN কেবলমাত্র অন্য 13-digit ISBN এর সাথে মিলিয়ে দেখতে হবে।",
+        "যদি ISBN এর কোনো সংখ্যা মিল না খায়, তবে পণ্যটিকে আলাদা হিসেবে ধরা হবে।",
+        "Ex: Left: ISBN 10-digit, Right: ISBN 10-digit, এগুলোকে একই পণ্য হিসেবে Mark করতে হবে।"
+      ]
+    },
+    {
+      "category": "Special Cases",
+      "rules": [
+        "Tape, Tablet Cases, Tablet Bags, Express Bags, Some Industrial Equipment, ইত্যাদির জন্য 0-3cm error range প্রযোজ্য নয়। তাদের সাইজ পুরোপুরি একই হতে হবে যাতে তারা Same হিসেবে Mark করা যায়।",
+        "Ex: Left: Width is 3cm and length is 20m, Right: Width is 10cm and length is 20m, তাদের width আলাদা হওয়ায়, এগুলোকে 'Size Not Same' হিসেবে Mark করতে হবে।",
+        "Tape এর জন্য, দুটি পণ্যকে Same হিসেবে Mark করতে হলে তাদের width, length, এবং thickness পুরোপুরি consistent থাকতে হবে।"
+      ]
+    },
+    {
+      "category": "About Error Range <=10%",
+      "rules": [
+        "এটি industry-recognized size standards না থাকা Industrial Hardware এর জন্য প্রযোজ্য।",
+        "অন্য সব পণ্যের জন্য, আমরা Error Range <=3cm অনুসরণ করতে পারি।",
+        "For Industrial Hardware with Industry-Recognized Size Standards, এই পণ্যের size পুরোপুরি একই হতে হবে।"
+      ]
+    }
+  ]
+}
